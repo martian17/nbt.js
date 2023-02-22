@@ -72,11 +72,7 @@ decoders[TAG_Double] = (u8,i)=>{
 
 decoders[TAG_Byte_Array] = (u8,i)=>{
     const len = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-    const val = new Int8Array(len);
-    for(let j = 0; j < len; j++){
-        val[j] = u8[i++];
-    }
-    return [val,i];
+    return [new Int8Array(u8.buffer.slice(0,len)),i+len];
 };
 
 decoders[TAG_String] = (u8,i)=>{
@@ -122,13 +118,14 @@ decoders[TAG_Int_Array] = (u8,i)=>{
 
 decoders[TAG_Long_Array] = (u8,i)=>{
     const len = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-    const val = new BigInt64Array(len);
+    const val = new Int32Array(len*2);
     for(let j = 0; j < len; j++){
         const v1 = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
         const v2 = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-        val[j] = BigInt(v1)*4294967296n+BigInt(v2);
+        val[j*2] = v2;
+        val[j*2+1] = v1;
     }
-    return [val,i];
+    return [new BigInt64Array(val.buffer),i];
 };
 
 
@@ -196,11 +193,18 @@ encoders[TAG_List] = (buff,vals)=>{
 
 encoders[TAG_Compound] = (buff,vals)=>{
     for(let key in vals){
+        const val = vals[key];
         const type = getType(val);
+        console.log("type:",type,val);
         buff.append_U8(type);
         encoders[TAG_String](buff,key);
-        const val = vals[key];
-        encoders[type](buff,val);
+        try{
+            encoders[type](buff,val);
+        }catch(err){
+            //console.log(type,encoders[type]);
+            //encoders[type](buff,val);
+            throw err;
+        }
     }
     buff.append_U8(TAG_End);
 };
@@ -230,18 +234,18 @@ const getType = function(obj){
         return obj.type;
     }else if(typeof obj === "bigint"){
         return TAG_Long;
-    }else if(typeof myVar === 'string' || myVar instanceof String){
+    }else if(typeof obj === 'string' || obj instanceof String){
         return TAG_String;
     }else if(obj instanceof Object){
         return TAG_Compound;
-    }else{
-        throw new Error("Unknown NBT type:",obj);
     }
+    throw new Error("Unknown NBT type:",obj);
 };
 
 export const encodeNBT = function(obj){
     const buffer = new BufferBuilder;
     encoders[getType(obj)](buffer,obj);
+    return buffer.export();
 };
 
 
