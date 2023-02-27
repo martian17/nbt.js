@@ -1,6 +1,17 @@
 import {decodeJavaUTF8, encodeJavaUTF8} from "./javaUTF8.mjs";
 import {BufferBuilder} from "./buffer-builder.js/index.mjs";
 
+//util functions. will refactor into util npm module in the future
+const isNode = typeof window === undefined;
+const BufferConstructor = isNode?Buffer:Uint8Array;
+
+const U8FromView = function(view){
+    if(view instanceof Uint8Array){
+        return view;
+    }
+    return new Uint8Array(view.buffer,view.byteOffset,view.byteLength);
+};
+
 export const TAG_End = 0;
 export const TAG_Byte = 1;
 export const TAG_Short = 2;
@@ -151,7 +162,8 @@ export const decodeNBT = function(u8){
 */
 
 
-export const decodeNBT = function(u8){
+export const decodeNBT = function(view){
+    const u8 = U8FromView(view);
     let val,i;
     [val,i] = decoders[TAG_Compound](u8,0);
     console.log(`read nbt with ending ${u8[i]}`);
@@ -277,7 +289,7 @@ export const encodeNBT = function(obj){
     encoders[getType(obj)](buffer,obj);
     buffer.length--;//outermost Tag_End is omitted
     console.log(buffer.length,buffer.size);
-    return new Uint8Array(buffer.export());
+    return buffer.export();
 };
 
 
