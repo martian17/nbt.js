@@ -96,12 +96,7 @@ decoders[TAG_List] = (u8,i)=>{
 
 decoders[TAG_Compound] = (u8,i)=>{
     const val = {};//Object.create(null);
-    //while(i < u8.length){
-    while(true){
-        if(i >= u8.length){
-            console.log("reached end without TAG_END");
-            break;
-        }
+    while(i < u8.length){
         const typeid = u8[i++];
         if(typeid === TAG_End)break;
         let name,v;
@@ -133,23 +128,6 @@ decoders[TAG_Long_Array] = (u8,i)=>{
     return [new BigInt64Array(val.buffer),i];
 };
 
-/*
-//example buffer
-//<Buffer 0a 00 00 0a 00 04 64 61 74 61 03 00 03 6d 61 70 00 00 33 3a 00 00>
-export const decodeNBT = function(u8){
-    const val = {};
-    let i;
-    //parse like compound payload
-    const typeid = u8[i++];
-    let name,v;
-    [name,i] = decoders[TAG_String](u8,i);
-    [v,i] = decoders[typeid](u8,i);
-    val[name] = v;
-    console.log(`buffer size: ${u8.length} scanned until: ${i}`);
-    return val;
-};
-*/
-
 
 export const decodeNBT = function(u8){
     let val,i;
@@ -171,16 +149,7 @@ encoders[TAG_Short] = (buff,val)=>{
     buff.append_I16BE(val.value);
 };
 
-let ffff = true;
 encoders[TAG_Int] = (buff,val)=>{
-    if(ffff && val.value !== 0){
-        ffff = false;
-        let ii = new Int32Array(1);
-        ii[0] = val.value;
-        let u8 = new Uint8Array(ii.buffer);
-        console.log("asdf",val.value);
-        console.log("affff",[...u8]);
-    }
     buff.append_I32BE(val.value);
 };
 
@@ -197,13 +166,14 @@ encoders[TAG_Double] = (buff,val)=>{
 };
 
 encoders[TAG_Byte_Array] = (buff,val)=>{
-    buff.append_I32BE(val.length);
-    buff.append_buffer(val);
+    const valbuff = val.buffer;
+    buff.append_I32BE(valbuff.byteLength);
+    buff.append_buffer(valbuff);
 };
 
 encoders[TAG_String] = (buff,val)=>{
     const strbuff = encodeJavaUTF8(val);
-    buff.append_U16BE(strbuff.length);
+    buff.append_U16BE(strbuff.byteLength);
     buff.append_buffer(strbuff);
 };
 
@@ -225,7 +195,7 @@ encoders[TAG_Compound] = (buff,vals)=>{
     for(let key in vals){
         const val = vals[key];
         const type = getType(val);
-        //console.log("type:",type,val);
+        console.log("type:",type,val);
         buff.append_U8(type);
         encoders[TAG_String](buff,key);
         try{
@@ -241,12 +211,12 @@ encoders[TAG_Compound] = (buff,vals)=>{
 
 encoders[TAG_Int_Array] = (buff,val)=>{
     buff.append_I32BE(val.length);
-    buff.append_BE32_buffer(val);
+    buff.append_buffer(val.buffer);
 };
 
 encoders[TAG_Long_Array] = (buff,val)=>{
     buff.append_I32BE(val.length);
-    buff.append_BE64_buffer(val);
+    buff.append_buffer(val.buffer);
 };
 
 const getType = function(obj){
@@ -275,9 +245,7 @@ const getType = function(obj){
 export const encodeNBT = function(obj){
     const buffer = new BufferBuilder;
     encoders[getType(obj)](buffer,obj);
-    buffer.length--;//outermost Tag_End is omitted
-    console.log(buffer.length,buffer.size);
-    return new Uint8Array(buffer.export());
+    return buffer.export();
 };
 
 
