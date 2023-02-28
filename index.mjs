@@ -12,6 +12,8 @@ const U8FromView = function(view){
     return new Uint8Array(view.buffer,view.byteOffset,view.byteLength);
 };
 
+const VERBOSE = false;
+
 export const TAG_End = 0;
 export const TAG_Byte = 1;
 export const TAG_Short = 2;
@@ -112,7 +114,7 @@ decoders[TAG_Compound] = (u8,i)=>{
     //while(i < u8.length){
     while(true){
         if(i >= u8.length){
-            console.log("reached end without TAG_END");
+            if(VERBOSE)console.log("reached end without TAG_END");
             break;
         }
         const typeid = u8[i++];
@@ -168,7 +170,7 @@ export const decodeNBT = function(view){
     const u8 = U8FromView(view);
     let val,i;
     [val,i] = decoders[TAG_Compound](u8,0);
-    console.log(`read nbt with ending ${u8[i]}`);
+    if(VERBOSE)console.log(`read nbt with ending ${u8[i]}`);
     return val;
 };
 
