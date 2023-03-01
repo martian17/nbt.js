@@ -41,6 +41,20 @@ class NBT_Number{
         this.type = type;
     }
 };
+const createNumberType = function(type){
+    return class extends NBT_Number{
+        constructor(val){
+            super(val,type);
+        }
+    }
+};
+
+export const NBT_Byte = createNumberType(TAG_Byte);
+export const NBT_Short = createNumberType(TAG_Short);
+export const NBT_Int = createNumberType(TAG_Int);
+export const NBT_Long = createNumberType(TAG_Long);
+export const NBT_Float = createNumberType(TAG_Float);
+export const NBT_Double = createNumberType(TAG_Double);
 
 export const decoders = [];
 
@@ -50,17 +64,17 @@ decoders[TAG_End] = (u8,i)=>{
 
 decoders[TAG_Byte] = (u8,i)=>{
     A8[0] = u8[i];
-    return [new NBT_Number(A8[0],TAG_Byte),i+1];
+    return [new NBT_Byte(A8[0]),i+1];
 };
 
 decoders[TAG_Short] = (u8,i)=>{
     A16[0] = (u8[i++]<<8)|u8[i++];
-    return [new NBT_Number(A16[0],TAG_Short),i];
+    return [new NBT_Short(A16[0]),i];
 };
 
 decoders[TAG_Int] = (u8,i)=>{
     const val = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-    return [new NBT_Number(val,TAG_Int),i];
+    return [new NBT_Int(val),i];
 };
 
 decoders[TAG_Long] = (u8,i)=>{
@@ -73,13 +87,13 @@ decoders[TAG_Long] = (u8,i)=>{
 
 decoders[TAG_Float] = (u8,i)=>{
     A32[0] = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-    return [new NBT_Number(F32[0],TAG_Float),i];
+    return [new NBT_Float(F32[0]),i];
 };
 
 decoders[TAG_Double] = (u8,i)=>{
     A32[0] = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
     A32[1] = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
-    return [new NBT_Number(F64[0],TAG_Double),i];
+    return [new NBT_Double(F64[0]),i];
 };
 
 decoders[TAG_Byte_Array] = (u8,i)=>{
