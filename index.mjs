@@ -283,6 +283,7 @@ const getType = function(obj){
     }else if(obj instanceof Object){
         return TAG_Compound;
     }
+    console.log(obj);
     throw new Error("Unknown NBT type:",obj);
 };
 
