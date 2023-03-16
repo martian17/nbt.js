@@ -1,5 +1,5 @@
 import {decodeJavaUTF8, encodeJavaUTF8} from "./javaUTF8.mjs";
-import {BufferBuilder} from "./buffer-builder.js/index.mjs";
+import {BufferBuilder} from "buffer-builder.js";
 
 //util functions. will refactor into util npm module in the future
 const isNode = typeof window === undefined;
