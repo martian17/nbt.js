@@ -1,6 +1,6 @@
 import {encodeNBT, decodeNBT} from "../index.mjs";
 import {promises as fs} from "fs";
-import {arreq} from "../../ds-js/arrutil.mjs";
+import {arreq} from "ds-js/arrutil.mjs";
 
 const filename = process.argv[2] || "./chunk.nbt";
 console.log("filename: ",filename);
