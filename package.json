@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "buffer-builder.js": "github:martian17/buffer-builder.js"
+  },
+  "devDependencies": {
+    "ds-js": "github:martian17/ds-js"
   }
 }

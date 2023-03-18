@@ -2,9 +2,13 @@ lockfileVersion: 5.4
 
 specifiers:
   buffer-builder.js: github:martian17/buffer-builder.js
+  ds-js: github:martian17/ds-js
 
 dependencies:
   buffer-builder.js: github.com/martian17/buffer-builder.js/68ca9fee79178346022d05f478bc8d733cf46a38
+
+devDependencies:
+  ds-js: github.com/martian17/ds-js/28dd4209212515a95b8ef72c272774357652c12d
 
 packages:
 
@@ -13,3 +17,9 @@ packages:
     name: buffer-builder.js
     version: 1.0.0
     dev: false
+
+  github.com/martian17/ds-js/28dd4209212515a95b8ef72c272774357652c12d:
+    resolution: {tarball: https://codeload.github.com/martian17/ds-js/tar.gz/28dd4209212515a95b8ef72c272774357652c12d}
+    name: ds-js
+    version: 1.0.0
+    dev: true
