@@ -82,7 +82,7 @@ decoders[TAG_Long] = (u8,i)=>{
     const v2 = (u8[i++]<<24)|(u8[i++]<<16)|(u8[i++]<<8)|u8[i++];
     A32[0] = v2;
     A32[1] = v1;
-    return [A64[0],i];
+    return [new NBT_Long(A64[0]),i];
 };
 
 decoders[TAG_Float] = (u8,i)=>{
@@ -206,7 +206,7 @@ encoders[TAG_Int] = (buff,val)=>{
 };
 
 encoders[TAG_Long] = (buff,val)=>{
-    buff.append_I64BE(val);
+    buff.append_I64BE(val.value);
 };
 
 encoders[TAG_Float] = (buff,val)=>{
@@ -276,8 +276,6 @@ export const getType = function(obj){
         return TAG_List;
     }else if(obj instanceof NBT_Number){
         return obj.type;
-    }else if(typeof obj === "bigint"){
-        return TAG_Long;
     }else if(typeof obj === 'string' || obj instanceof String){
         return TAG_String;
     }else if(obj instanceof Object){
