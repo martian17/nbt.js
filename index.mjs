@@ -263,7 +263,7 @@ encoders[TAG_Long_Array] = (buff,val)=>{
     buff.append_BE64_buffer(val);
 };
 
-const getType = function(obj){
+export const getType = function(obj){
     if(ArrayBuffer.isView(obj)){
         if(obj instanceof Int8Array){
             return TAG_Byte_Array;
