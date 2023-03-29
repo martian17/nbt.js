@@ -1,4 +1,4 @@
-import {encodeNBT, decodeNBT} from "../index.mjs";
+import {encodeNBT, decodeNBT} from "../lib/index.js";
 import {promises as fs} from "fs";
 import {arreq} from "ds-js/arrutil.mjs";
 
