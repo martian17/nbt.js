@@ -154,7 +154,7 @@ encoders[TAG_Int] = (buff,val)=>{
 };
 
 encoders[TAG_Long] = (buff,val)=>{
-    buff.append_I64BE(val);
+    buff.append_I64BE(val.value);
 };
 
 encoders[TAG_Float] = (buff,val)=>{
