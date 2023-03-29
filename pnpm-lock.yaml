@@ -10,7 +10,7 @@ specifiers:
   typescript: ^5.0.2
 
 dependencies:
-  buffer-builder.js: github.com/martian17/buffer-builder.js/630f2564c189a13651f24cefc8c0d60e3fb8d685
+  buffer-builder.js: github.com/martian17/buffer-builder.js/9c96348c05c1aebfbc4dc427e22e4303b7b719c1
 
 devDependencies:
   '@typescript-eslint/eslint-plugin': 5.57.0_s5k7qbmvzkal3edwy7gcxmnteu
@@ -951,8 +951,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/martian17/buffer-builder.js/630f2564c189a13651f24cefc8c0d60e3fb8d685:
-    resolution: {tarball: https://codeload.github.com/martian17/buffer-builder.js/tar.gz/630f2564c189a13651f24cefc8c0d60e3fb8d685}
+  github.com/martian17/buffer-builder.js/9c96348c05c1aebfbc4dc427e22e4303b7b719c1:
+    resolution: {tarball: https://codeload.github.com/martian17/buffer-builder.js/tar.gz/9c96348c05c1aebfbc4dc427e22e4303b7b719c1}
     name: buffer-builder.js
     version: 1.0.0
     dev: false
