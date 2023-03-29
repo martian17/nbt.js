@@ -14,7 +14,11 @@
     "buffer-builder.js": "github:martian17/buffer-builder.js"
   },
   "devDependencies": {
-    "ds-js": "github:martian17/ds-js"
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "ds-js": "github:martian17/ds-js",
+    "eslint": "^8.37.0",
+    "martian_eslint": "github:martian17/eslint#semi-one-liner-class",
     "typescript": "^5.0.2"
   }
 }
