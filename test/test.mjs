@@ -20,16 +20,20 @@ if(buff1.length !== buff2.length){
     console.log("same length");
 }
 
+let isDifferent = false;
 for(let i = 0; i < buff1.length; i++){
     const a = buff1[i];
     const b = buff2[i];
     if(a !== b){
+        isDifferent = true;
         console.log("difference found",i,a,b);
         console.log(buff1.slice(i-20));
         console.log(buff2.slice(i-20));
         break;
     }
 }
+if(!isDifferent)
+    console.log("Same contents");
 
 
 if(arreq(buff1,buff2)){
