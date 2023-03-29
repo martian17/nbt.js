@@ -1,6 +1,18 @@
+//util functions. will refactor into util npm module in the future
+const isNode = typeof window === undefined;
+const BufferConstructor = isNode?Buffer:Uint8Array;
+
+const U8FromView = function(view:ArrayBufferView):Uint8Array{
+    if(view instanceof Uint8Array){
+        return view;
+    }
+    return new Uint8Array(view.buffer,view.byteOffset,view.byteLength);
+};
+
 
 //unsafe, might overflow
-export const decodeJavaUTF8 = function(u8,i,end){
+export const decodeJavaUTF8 = function(view:ArrayBufferView, i:number, end:number): string{
+    const u8 = U8FromView(view);
     let str = "";
     while(i < end){
         const val = u8[i++];
@@ -21,10 +33,11 @@ export const decodeJavaUTF8 = function(u8,i,end){
     return str;
 };
 
-export const encodeJavaUTF8 = function(str){
+export const encodeJavaUTF8 = function(str:string):Buffer|Uint8Array{
     let res = [];
     for(let i = 0; i < str.length; i++){
         res.push(str.charCodeAt(i));
     }
-    return new Uint8Array(res).buffer;
+    return new BufferConstructor(res);
 };
+
