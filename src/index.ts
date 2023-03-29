@@ -232,9 +232,7 @@ const getType = function(obj){
         return TAG_List;
     }else if(obj instanceof NBT_Number){
         return obj.type;
-    }else if(typeof obj === "bigint"){
-        return TAG_Long;
-    }else if(typeof obj === 'string' || obj instanceof String){
+    }else if(typeof obj === "string" || obj instanceof String){
         return TAG_String;
     }else if(obj instanceof Object){
         return TAG_Compound;
