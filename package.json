@@ -2,7 +2,8 @@
   "name": "nbt.js",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "main": "lib/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +15,6 @@
   },
   "devDependencies": {
     "ds-js": "github:martian17/ds-js"
+    "typescript": "^5.0.2"
   }
 }
