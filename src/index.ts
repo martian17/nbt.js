@@ -45,18 +45,18 @@ export type  NBT_Compound   = {[key:string]:NBT_Object};
 export type  NBT_Int_Array  = Int32Array;
 export type  NBT_Long_Array = BigInt64Array;
 
-type NBT_Object = NBT_Byte      
-                | NBT_Short     
-                | NBT_Int       
-                | NBT_Long      
-                | NBT_Float     
-                | NBT_Double    
-                | NBT_Byte_Array
-                | NBT_String    
-                | NBT_List      
-                | NBT_Compound  
-                | NBT_Int_Array 
-                | NBT_Long_Array;
+export type NBT_Object = NBT_Byte      
+                      | NBT_Short     
+                      | NBT_Int       
+                      | NBT_Long      
+                      | NBT_Float     
+                      | NBT_Double    
+                      | NBT_Byte_Array
+                      | NBT_String    
+                      | NBT_List      
+                      | NBT_Compound  
+                      | NBT_Int_Array 
+                      | NBT_Long_Array;
 
 
 const A64 = new BigInt64Array(1);
